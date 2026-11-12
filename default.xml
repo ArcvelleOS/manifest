@@ -53,10 +53,14 @@
            fetch="https://github.com/ArcvelleOS"
            revision="vertex"/>
 
+  <remote  name="arcvelle-priv"
+           fetch="ssh://git@github.com/ArcvelleOS" />
+
   <include name="aosp.xml"/>
   <include name="aospa.xml"/>
   <include name="obsolete.xml"/>
   <include name="arcvelle.xml"/>
+  <include name="internal.xml"/>
   <include name="vanilla.xml"/>
 
 </manifest>

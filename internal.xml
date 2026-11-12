@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <!--
+    Internal projects. These are excluded from normal repo sync runs and
+    must be enabled explicitly with: repo sync -g <group>
+  -->
+
+  <!-- Private release keys, sync with: repo sync -g arcvelle-keys -->
+  <project path="vendor/arcvelle-priv/keys"
+           name="android_vendor_arcvelle-priv_keys"
+           remote="arcvelle-priv"
+           revision="vertex"
+           groups="arcvelle-keys,notdefault" />
+
+</manifest>

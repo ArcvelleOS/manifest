@@ -108,20 +108,30 @@ Options:
 ### Vanilla build
 
 Use `-l` to disable GMS.
-This example creates a signed user build with both recovery and fastboot images:
+This example creates a user build with both recovery and fastboot images:
 ```bash
-./rom-build.sh marble -t user -z -s ~/.android-certs -l
+./rom-build.sh marble -t user -z -l
 ```
 
 ### User build
 
 The default build includes GMS.
-This example creates a signed user build with both recovery and fastboot images:
+This example creates a user build with both recovery and fastboot images:
 ```bash
-./rom-build.sh marble -t user -z -s ~/.android-certs
+./rom-build.sh marble -t user -z
 ```
 
-Point `-s` at the directory containing your signing keys.
+### Release signing keys
+
+Official builds use the private ArcvelleOS release keys at `vendor/arcvelle-priv/keys`.
+They are not downloaded by a normal `repo sync`.
+With access to the private keys repository, sync them with:
+```bash
+repo sync -g arcvelle-keys
+```
+
+Builds without the keys still work, but are marked `Vertex Unofficial`.
+See `ArcvelleOS/android_vendor_arcvelle-priv_keys` for full signing details.
 
 ## Manifest layout
 
@@ -134,6 +144,7 @@ Point `-s` at the directory containing your signing keys.
 | `aospa.xml` | Stock AOSPA projects. |
 | `obsolete.xml` | Retired project removals. |
 | `arcvelle.xml` | Full ArcvelleOS project list, grouped by component, with additional projects at the bottom. |
+| `internal.xml` | Internal projects excluded from normal sync, including the private release keys. |
 | `vanilla.xml` | Vanilla apps, WebView prebuilts, MicroG and Pixel clocks. |
 
 ## Contributing
