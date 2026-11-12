@@ -1,8 +1,10 @@
-# Paranoid Android
+# ArcvelleOS
+
+ArcvelleOS is a fork based on Paranoid Android (AOSPA) and the Android Open Source Project. This repository contains the manifest used to sync the ArcvelleOS source tree.
 
 ## Set up your machine
 
-You must run a 64-bit Linux distribution to build Paranoid Android.
+You must run a 64-bit Linux distribution to build ArcvelleOS.
 Follow the system setup instructions on the [Android Open Source Project website](https://source.android.com/source/initializing.html#setting-up-a-linux-build-environment).
 Google provides Ubuntu-specific setup packages and instructions.
 Complete the environment setup before you proceed.
@@ -39,29 +41,24 @@ cd WORKSPACE
 ```
 
 Initialize the manifest repository:
-
-> [!IMPORTANT]
-> Configure your real name and email address in Git before you initialize Repo if you plan to submit patches.
-
 ```bash
-repo init -u https://github.com/AOSPA/manifest -b calcite
+repo init -u https://github.com/ArcvelleOS/manifest -b vertex --git-lfs
 ```
 
 ### Download the source tree
 
-Run `repo sync` to pull upstream source code.
+Run `repo sync` to pull the source code.
 
 > [!NOTE]
 > Initial synchronization downloads the entire source history and takes significant time.
 
-The `-j` option specifies the number of concurrent network jobs.
+Use all available CPU cores for the sync:
 ```bash
-repo sync --current-branch --no-tags -j4
+repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
 ```
 
 > [!TIP]
-> A value of four jobs (`-j4`) works well for most internet connections.
-> Adjust this value based on your connection speed.
+> If your connection is limited, lower the job count (for example, `-j4`).
 
 #### Sync specific projects
 
@@ -71,7 +68,7 @@ Specify projects by repository path or remote name.
 > [!WARNING]
 > Partial synchronization can cause build failures if changes span across projects.
 
-For example, specify `frameworks/base` or `AOSPA/android_frameworks_base`:
+For example, specify `frameworks/base` or `ArcvelleOS/android_frameworks_base`:
 ```bash
 repo sync PROJECT
 ```
@@ -79,128 +76,69 @@ repo sync PROJECT
 ## Build
 
 The bundled builder script `./rom-build.sh` automates all build steps for a target device.
-Provide the target device codename as the argument (for example, `phone2` for Nothing Phone (2)).
-
-Navigate to your workspace root and execute the build script:
+Provide the target device codename as the argument.
+For Xiaomi marble:
 ```bash
 cd WORKSPACE
-./rom-build.sh DEVICE
+./rom-build.sh marble
 ```
 
-## Submit patches
+Run the builder with `-h` to see every option:
+```text
+Usage: ./rom-build.sh <device> [options]
 
-Paranoid Android is open source and accepts patches from contributors.
-Track patch review status on [Gerrit Code Review](https://gerrit.aospa.co/).
+Options:
+  -h, --help            Display this help message
+  -c, --clean           Wipe the tree before building
+  -i, --installclean    Dirty build - Use 'installclean'
+  -r, --repo-sync       Sync before building
+  -v, --variant         AOSPA variant - Can be alpha, beta or stable
+  -t, --build-type      Specify build type
+  -j, --jobs            Specify jobs/threads to use
+  -m, --module          Build a specific module
+  -s, --sign-keys       Specify path to sign key mappings
+  -p, --pwfile          Specify path to sign key password file
+  -b, --backup-unsigned Store a copy of unsigned package along with signed
+  -d, --delta           Generate a delta ota from the specified target_files zip
+  -z, --imgzip          Generate fastboot flashable image zip from signed target_files
+  -n, --version         Specify build minor version (number)
+  -l, --vanilla         Disable GMS for this build
+```
 
-### Standard workflow with Repo
+### Vanilla build
 
-Navigate to your workspace root:
+Use `-l` to disable GMS.
+This example creates a signed user build with both recovery and fastboot images:
 ```bash
-cd WORKSPACE
+./rom-build.sh marble -t user -z -s ~/.android-certs -l
 ```
 
-Create a topic branch for the project you want to modify.
-Identify the project by repository name or local directory path:
+### User build
 
-| Identify by | Command |
+The default build includes GMS.
+This example creates a signed user build with both recovery and fastboot images:
+```bash
+./rom-build.sh marble -t user -z -s ~/.android-certs
+```
+
+Point `-s` at the directory containing your signing keys.
+
+## Manifest layout
+
+| File | Contents |
 | --- | --- |
-| Repository name | `repo start BRANCH AOSPA/PROJECT` |
-| Directory path | `repo start BRANCH PROJECT_DIR` |
+| `default.xml` | Remotes and includes for the full manifest. |
+| `system.xml` | Merged Qualcomm system snapshot. |
+| `vendor.xml`, `wlan.xml` | Qualcomm vendor and WLAN projects. |
+| `aosp.xml` | AOSP projects pinned by the baseline. |
+| `aospa.xml` | Stock AOSPA projects. |
+| `obsolete.xml` | Retired project removals. |
+| `arcvelle.xml` | Full ArcvelleOS project list, grouped by component, with additional projects at the bottom. |
+| `vanilla.xml` | Vanilla apps, WebView prebuilts, MicroG and Pixel clocks. |
 
-For example, start a branch for `frameworks/base` (`AOSPA/android_frameworks_base`):
-```bash
-repo start BRANCH frameworks/base
-```
+## Contributing
 
-Navigate to the project directory:
-```bash
-cd PROJECT_DIR
-```
-
-Make your code changes, then stage and commit them:
-```bash
-git add -A
-git commit -a -s
-```
-
-Upload your changes to Gerrit for review:
-```bash
-cd WORKSPACE
-repo upload PROJECT_DIR
-```
-
-### Workflow with plain Git
-
-Navigate to the project directory:
-```bash
-cd PROJECT_DIR
-```
-
-Make your code changes, then stage and commit them:
-```bash
-git add -A
-git commit -a -s
-```
-
-Push the commit directly to Gerrit.
-Replace `USERNAME` with your Gerrit username and `PROJECT` with the repository name.
-```bash
-git push ssh://USERNAME@gerrit-ssh.aospa.co:29418/AOSPA/PROJECT HEAD:refs/for/calcite
-```
-
-### Gerrit push options
-
-Append a suffix to the refspec to configure review options.
-You can also toggle these options in the Gerrit web interface.
-
-| Suffix | Effect |
-| --- | --- |
-| `%private` | Upload a change as private |
-| `%wip` | Upload a change as work-in-progress |
-| `%remove-private` | Remove the private status from a change |
-| `%ready` | Mark a work-in-progress change as ready for review |
-
-For example, upload a change as private:
-```bash
-git push ssh://USERNAME@gerrit-ssh.aospa.co:29418/AOSPA/PROJECT HEAD:refs/for/calcite%private
-```
-
-### Make additional changes
-
-To update an existing patch set, make your changes and amend the previous commit.
-
-> [!CAUTION]
-> Do not run `repo start` again.
-> Running `repo start` creates a new topic branch instead of updating the existing review.
-
-```bash
-git commit -a --amend
-```
-When you upload the amended commit, Gerrit attaches it as a new patch set to the existing review.
-
-### Squash multiple commits
-
-Each submitted patch must be a single commit.
-Squash multiple commits before you upload:
-```bash
-git rebase -i HEAD~<commit-count>
-```
-
-### Write commit messages
-
-Write clear and descriptive commit messages.
-
-- Use the imperative mood in the subject line (for example, "Fix audio routing", not "Fixed audio routing").
-- Keep the subject line near 50 characters and under 72 characters.
-- Capitalize the first word of the subject line and omit trailing periods.
-- Prefix the subject with the relevant project or component name when appropriate (for example, `manifest: Update default branch`).
-- Separate the subject line from the message body with a blank line.
-- Wrap message body text at 72 characters.
-
-## Translations
-
-Submit translations for Paranoid Android through Crowdin.
-Access the translation portal at https://crowdin.aospa.co.
+ArcvelleOS is developed on GitHub. Fork the relevant repository, create a topic branch, and open a pull request against the `vertex` branch.
 
 ## Project assets and licensing
 
@@ -215,6 +153,6 @@ Read the full license text at https://www.apache.org/licenses/LICENSE-2.0.
 
 Unless otherwise specified, all project assets (including images and branding) use the Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0) license.
 You may share and adapt these assets for non-commercial purposes.
-You must provide attribution to the original author (Paranoid Android Project or AOSPA).
-Include a reference to the license, note any modifications, and link to https://aospa.co.
+You must provide attribution to the original author (ArcvelleOS, Paranoid Android Project, or the relevant upstream project).
+Include a reference to the license, note any modifications, and link to https://github.com/ArcvelleOS.
 Read the full license text at https://creativecommons.org/licenses/by-nc/4.0/.

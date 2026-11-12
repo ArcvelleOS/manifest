@@ -48,8 +48,15 @@
   <remote  name="gitlab"
            fetch="https://gitlab.com" />
 
+  <!-- ArcvelleOS -->
+  <remote  name="arcvelle"
+           fetch="https://github.com/ArcvelleOS"
+           revision="vertex"/>
+
   <include name="aosp.xml"/>
   <include name="aospa.xml"/>
   <include name="obsolete.xml"/>
+  <include name="arcvelle.xml"/>
+  <include name="vanilla.xml"/>
 
 </manifest>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <!-- Build -->
+  <remove-project name="platform/build_repo" />
+  <project path="build/make" name="android_build" remote="arcvelle">
+    <linkfile src="CleanSpec.mk" dest="build/CleanSpec.mk" />
+    <linkfile src="buildspec.mk.default" dest="build/buildspec.mk.default" />
+    <linkfile src="core" dest="build/core" />
+    <linkfile src="envsetup.sh" dest="build/envsetup.sh" />
+    <linkfile src="target" dest="build/target" />
+    <linkfile src="tools" dest="build/tools" />
+  </project>
+  <remove-project name="platform/build/release" />
+  <project path="build/release" name="android_build_release" remote="arcvelle" />
+  <remove-project name="platform/build/soong" />
+  <project path="build/soong" name="android_build_soong" remote="arcvelle">
+    <linkfile src="root.bp" dest="Android.bp" />
+    <linkfile src="bootstrap.bash" dest="bootstrap.bash" />
+  </project>
+
+  <!-- Core -->
+  <remove-project name="platform/art" />
+  <project path="art" name="android_art" remote="arcvelle" />
+  <remove-project name="platform/bionic" />
+  <project path="bionic" name="android_bionic" remote="arcvelle" />
+
+  <!-- Device -->
+  <remove-project name="device/qcom/common" />
+  <project path="device/qcom/common" name="android_device_qcom_common" remote="arcvelle">
+    <linkfile dest="vendor/qcom/build/tasks/generate_extra_images.mk" src="generate_extra_images.mk"/>
+  </project>
+
+  <!-- Development -->
+  <remove-project name="platform/development" />
+  <project path="development" name="android_development" remote="arcvelle" />
+
+  <!-- External -->
+  <remove-project name="platform/external/exfatprogs" />
+  <project path="external/exfatprogs" name="android_external_exfatprogs" remote="arcvelle" />
+  <remove-project name="platform/external/freetype" />
+  <project path="external/freetype" name="android_external_freetype" remote="arcvelle" />
+  <remove-project name="platform/external/libcupsfilters" />
+  <project path="external/libcupsfilters" name="android_external_libcupsfilters" remote="arcvelle" />
+  <remove-project name="platform/external/libhevc" />
+  <project path="external/libhevc" name="android_external_libhevc" remote="arcvelle" />
+  <remove-project name="platform/external/libjxl" />
+  <project path="external/libjxl" name="android_external_libjxl" remote="arcvelle" />
+  <remove-project name="platform/external/libpng" />
+  <project path="external/libpng" name="android_external_libpng" remote="arcvelle" />
+  <remove-project name="platform/external/libppd" />
+  <project path="external/libppd" name="android_external_libppd" remote="arcvelle" />
+  <remove-project name="platform/external/wpa_supplicant_8" />
+  <project path="external/wpa_supplicant_8" name="android_external_wpa_supplicant_8" remote="arcvelle" />
+
+  <!-- Frameworks -->
+  <remove-project name="platform/frameworks/av" />
+  <project path="frameworks/av" name="android_frameworks_av" remote="arcvelle" />
+  <remove-project name="platform/frameworks/base" />
+  <project path="frameworks/base" name="android_frameworks_base" remote="arcvelle" />
+  <remove-project name="platform/frameworks/libs/systemui" />
+  <project path="frameworks/libs/systemui" name="android_frameworks_libs_systemui" remote="arcvelle" />
+  <remove-project name="platform/frameworks/native" />
+  <project path="frameworks/native" name="android_frameworks_native" remote="arcvelle" />
+  <remove-project name="platform/frameworks/opt/telephony" />
+  <project path="frameworks/opt/telephony" name="android_frameworks_opt_telephony" remote="arcvelle" />
+
+  <!-- Hardware -->
+  <remove-project name="platform/hardware/interfaces" />
+  <project path="hardware/interfaces" name="android_hardware_interfaces" remote="arcvelle" />
+  <remove-project name="platform/hardware/nxp/nfc" />
+  <project path="hardware/nxp/nfc" name="android_hardware_nxp_nfc" remote="arcvelle" />
+  <remove-project name="platform/hardware/nxp/secure_element" />
+  <project path="hardware/nxp/secure_element" name="android_hardware_nxp_secure_element" remote="arcvelle" />
+  <remove-project name="platform/hardware/st/nfc" />
+  <project path="hardware/st/nfc" name="android_hardware_st_nfc" remote="arcvelle" />
+
+  <!-- Manifest -->
+  <project path="manifest" name="manifest" remote="arcvelle" />
+
+  <!-- Packages -->
+  <remove-project name="platform/packages/apps/Car/Settings" />
+  <project path="packages/apps/Car/Settings" name="android_packages_apps_Car_Settings" remote="arcvelle" />
+  <remove-project name="platform/packages/apps/ContactsPicker" />
+  <project path="packages/apps/ContactsPicker" name="android_packages_apps_ContactsPicker" remote="arcvelle" />
+  <remove-project name="platform/packages/apps/Launcher3" />
+  <project path="packages/apps/Launcher3" name="android_packages_apps_Launcher3" remote="arcvelle" />
+  <project path="packages/apps/ParanoidSettings" name="android_packages_apps_ParanoidSettings" remote="arcvelle" />
+  <project path="packages/apps/ParanoidSystemUI" name="android_packages_apps_Paranoid_SystemUI" remote="arcvelle" />
+  <remove-project name="platform/packages/apps/Settings" />
+  <project path="packages/apps/Settings" name="android_packages_apps_Settings" remote="arcvelle" />
+  <remove-project name="platform/packages/apps/ThemePicker" />
+  <project path="packages/apps/ThemePicker" name="android_packages_apps_ThemePicker" remote="arcvelle" />
+  <remove-project name="platform/packages/apps/TV" />
+  <project path="packages/apps/TV" name="android_packages_apps_TV" remote="arcvelle" />
+  <remove-project name="platform/packages/apps/TvSettings" />
+  <project path="packages/apps/TvSettings" name="android_packages_apps_TvSettings" remote="arcvelle" />
+  <remove-project name="platform/packages/modules/adb" />
+  <project path="packages/modules/adb" name="android_packages_modules_adb" remote="arcvelle" />
+  <remove-project name="platform/packages/modules/Bluetooth" />
+  <project path="packages/modules/Bluetooth" name="android_packages_modules_Bluetooth" remote="arcvelle" />
+  <remove-project name="platform/packages/modules/Connectivity" />
+  <project path="packages/modules/Connectivity" name="android_packages_modules_Connectivity" remote="arcvelle" />
+  <remove-project name="platform/packages/modules/Nfc" />
+  <project path="packages/modules/Nfc" name="android_packages_modules_Nfc" remote="arcvelle" />
+  <remove-project name="platform/packages/modules/Telephony" />
+  <project path="packages/modules/Telephony" name="android_packages_modules_Telephony" remote="arcvelle" />
+  <remove-project name="platform/packages/modules/Uwb" />
+  <project path="packages/modules/Uwb" name="android_packages_modules_Uwb" remote="arcvelle" />
+  <remove-project name="platform/packages/modules/Wifi" />
+  <project path="packages/modules/Wifi" name="android_packages_modules_Wifi" remote="arcvelle" />
+  <remove-project name="platform/packages/providers/ContactsProvider" />
+  <project path="packages/providers/ContactsProvider" name="android_packages_providers_ContactsProvider" remote="arcvelle" />
+  <remove-project name="platform/packages/providers/DownloadProvider" />
+  <project path="packages/providers/DownloadProvider" name="android_packages_providers_DownloadProvider" remote="arcvelle" />
+  <remove-project name="platform/packages/providers/MediaProvider" />
+  <project path="packages/providers/MediaProvider" name="android_packages_providers_MediaProvider" remote="arcvelle" />
+  <remove-project name="platform/packages/providers/TelephonyProvider" />
+  <project path="packages/providers/TelephonyProvider" name="android_packages_providers_TelephonyProvider" remote="arcvelle" />
+  <remove-project name="platform/packages/services/BuiltInPrintService" />
+  <project path="packages/services/BuiltInPrintService" name="android_packages_services_BuiltInPrintService" remote="arcvelle" />
+  <remove-project name="platform/packages/services/Telecomm" />
+  <project path="packages/services/Telecomm" name="android_packages_services_Telecomm" remote="arcvelle" />
+  <remove-project name="platform/packages/services/Telephony" />
+  <project path="packages/services/Telephony" name="android_packages_services_Telephony" remote="arcvelle" />
+
+  <!-- System -->
+  <remove-project name="platform/system/core" />
+  <project path="system/core" name="android_system_core" remote="arcvelle" />
+  <remove-project name="platform/system/fs/fs_mgr" />
+  <project path="system/fs/fs_mgr" name="android_system_fs_fs_mgr" remote="arcvelle" />
+  <remove-project name="platform/system/libfmq" />
+  <project path="system/libfmq" name="android_system_libfmq" remote="arcvelle" />
+  <remove-project name="platform/system/libufdt" />
+  <project path="system/libufdt" name="android_system_libufdt" remote="arcvelle" />
+  <remove-project name="platform/system/media" />
+  <project path="system/media" name="android_system_media" remote="arcvelle" />
+  <remove-project name="platform/system/memory/lmkd" />
+  <project path="system/memory/lmkd" name="android_system_memory_lmkd" remote="arcvelle" />
+  <remove-project name="platform/system/netd" />
+  <project path="system/netd" name="android_system_netd" remote="arcvelle" />
+  <remove-project name="platform/system/update_engine" />
+  <project path="system/update_engine" name="android_system_update_engine" remote="arcvelle" />
+  <remove-project name="platform/system/vold" />
+  <project path="system/vold" name="android_system_vold" remote="arcvelle" />
+
+  <!-- Vendor -->
+  <project path="vendor/aospa" name="android_vendor_aospa" remote="arcvelle">
+    <linkfile src="build.sh" dest="rom-build.sh" />
+  </project>
+  <project path="vendor/qcom/common" name="proprietary_vendor_qcom_common" remote="arcvelle" />
+  <remove-project name="platform/vendor/qcom-opensource/display-commonsys-intf" />
+  <project path="vendor/qcom/opensource/commonsys-intf/display" name="android_vendor_qcom_opensource_commonsys-intf_display" remote="arcvelle" />
+  <remove-project name="platform/vendor/qcom-opensource/bluetooth" />
+  <project path="vendor/qcom/opensource/commonsys/bluetooth" name="android_vendor_qcom-opensource_bluetooth-commonsys" remote="arcvelle" />
+  <remove-project name="platform/vendor/qcom-opensource/power" />
+  <project path="vendor/qcom/opensource/power" name="android_vendor_qcom-opensource_power" remote="arcvelle" />
+
+  <!-- Additional projects -->
+  <project path="external/ntfs-3g" name="LineageOS/android_external_ntfs-3g" remote="github" revision="lineage-24.0" />
+  <project path="packages/apps/LMOFreeform" name="android_packages_apps_LMOFreeform" remote="arcvelle" />
+  <project path="packages/apps/ParanoidSense" name="android_packages_apps_ParanoidSense" remote="arcvelle" />
+  <project path="packages/apps/Pentas" name="android_packages_apps_Pentas" remote="arcvelle" />
+  <project path="vendor/bcr" name="Chaitanyakm/vendor_bcr" remote="github" revision="main" />
+
+</manifest>
