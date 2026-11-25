@@ -165,4 +165,6 @@
   <project path="packages/apps/Pentas" name="android_packages_apps_Pentas" remote="arcvelle" />
   <project path="vendor/bcr" name="Chaitanyakm/vendor_bcr" remote="github" revision="main" />
 
+  <project remote="clo-la" name="platform/external/json-c" path="external/json-c" revision="44413d7813a4dfbdd99c81ed3b1ff420ec273045" upstream="refs/heads/ks-aosp-legacy-build-tools.lnx.1.0.r57-rel" groups="qcom-LA.UM.7.3-incoming,vendor,qc-common-sys-intf,vsdk_inc_L0,vsdk_inc_L1,vsdk_inc_L2,vsdk_inc_L3"/>
+
 </manifest>
